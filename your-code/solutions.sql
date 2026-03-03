@@ -1,24 +1,25 @@
 --Challenge 1
-SELECT titleauthor.au_id AS 'AUTHODR ID', authors.au_lname AS 'LAST NAME', authors.au_fname AS 'FIRST NAME', titles.title AS 'TITLE', publishers.pub_name AS 'PUBLISHER' FROM titles 
+SELECT titleauthor.au_id AS 'AUTHOR ID', authors.au_lname AS 'LAST NAME', authors.au_fname AS 'FIRST NAME', titles.title AS 'TITLE', publishers.pub_name AS 'PUBLISHER' FROM titles 
 JOIN titleauthor  ON titles.title_id = titleauthor.title_id
 JOIN authors ON titleauthor.au_id = authors.au_id
 JOIN publishers ON publishers.pub_id = titles.pub_id;
 
 --Challenge 2
-SELECT titleauthor.au_id AS 'AUTHODR ID', authors.au_lname AS 'LAST NAME', authors.au_fname AS 'FIRST NAME', publishers.pub_name AS 'PUBLISHER', COUNT(*) AS 'TITLE COUNT' FROM titles 
+SELECT titleauthor.au_id AS 'AUTHOR ID', authors.au_lname AS 'LAST NAME', authors.au_fname AS 'FIRST NAME', publishers.pub_name AS 'PUBLISHER', COUNT(*) AS 'TITLE COUNT' FROM titles 
 JOIN titleauthor  ON titles.title_id = titleauthor.title_id
 JOIN authors ON titleauthor.au_id = authors.au_id
 JOIN publishers ON publishers.pub_id = titles.pub_id
-GROUP BY titles.pub_id, titleauthor.au_id;
+GROUP BY titleauthor.au_id, publishers.pub_id;
 
 --Challenge 3
 SELECT authors.au_id AS 'AUTHOR ID', authors.au_lname AS 'LAST NAME', authors.au_fname AS 'FIRST NAME', SUM(sales.qty) AS 'TOTAL'
 FROM authors
 JOIN titleauthor ON authors.au_id = titleauthor.au_id
 JOIN sales ON titleauthor.title_id = sales.title_id
-GROUP BY sales.title_id
+GROUP BY titleauthor.au_id, authors.au_lname, authors.au_fname
 ORDER BY SUM(sales.qty) DESC
 LIMIT 3;
+
 
 --Challenge 4
 DROP VIEW IF EXISTS sales_per_author;
